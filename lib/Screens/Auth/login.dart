@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:linked_in/Screens/Auth/register.dart';
 import 'package:linked_in/Screens/Network/Network.dart';
 
+import '../../main.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -64,8 +66,10 @@ class _LoginState extends State<Login> {
               onPressed: () async {
                 await FirebaseAuth.instance
                     .signInWithEmailAndPassword(email: email, password: pw);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Network()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreatNavigationBar()));
               },
               // border: OutlineInputBorder(),
               child: const Text('Login'),

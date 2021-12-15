@@ -1,12 +1,12 @@
 // ignore: file_names
 class Request {
   Request({
-    required this.firstname,
-    required this.lastname,
-    required this.sendFrom,
-    required this.sendTo,
-    required this.status,
-    required this.img,
+    this.firstname,
+    this.lastname,
+    this.sendFrom,
+    this.sendTo,
+    this.status,
+    this.img,
   });
   String img;
 

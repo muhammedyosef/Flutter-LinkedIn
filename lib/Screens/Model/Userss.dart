@@ -1,16 +1,18 @@
 // ignore: file_names
+// ignore_for_file: non_constant_identifier_names, file_names
+
 class Welcome {
   Welcome(
-      {required this.firstName,
-      required this.lastName,
-      required this.country,
-      required this.city,
-      required this.jobTitle,
-      required this.company,
-      required this.employmentType,
-      required this.ID,
-      required this.img,
-      required this.security});
+      {this.firstName,
+      this.lastName,
+      this.country,
+      this.city,
+      this.jobTitle,
+      this.company,
+      this.employmentType,
+      this.ID,
+      this.img,
+      this.security});
   String ID;
   String img;
   String security;

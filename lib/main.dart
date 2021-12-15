@@ -1,121 +1,183 @@
 import 'package:flutter/material.dart';
+import 'package:linked_in/Screens/Auth/login.dart';
+import 'package:linked_in/Screens/Post.dart';
+import 'package:linked_in/screens/MainPageScreen.dart';
+import 'package:linked_in/screens/MyNetWorkScreen.dart';
+import 'package:linked_in/screens/notifications_screens.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:linked_in/Screens/Auth/login.dart';
+
+import 'Screens/Network/Network.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
-}
+  runApp(MyApp()); // run app
+} // void main
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: Login(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Login());
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+///////////////////////////////////// Bottom Navigation Bar
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class JobsScreen extends StatelessWidget {
+  get index => null;
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      appBar: CreatAppBar(
+        key: index,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      backgroundColor: Colors.yellow,
     );
+  }
+}
+
+class PostScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CreatAppBar(),
+      backgroundColor: Colors.green,
+    );
+  }
+}
+
+class CreatNavigationBar extends StatefulWidget {
+  static const route = "CreatNavigationBar";
+  @override
+  State<StatefulWidget> createState() => CreatNavigationBarState();
+}
+
+class CreatNavigationBarState extends State<CreatNavigationBar> {
+  int _selectedIndex = 4;
+  List<Widget> pages = <Widget>[
+    MainPageScreen(),
+    Network(),
+    AddPost(),
+    NotificationsScreen(),
+    JobsScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      body: pages.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        selectedLabelStyle: TextStyle(
+            fontSize: 10, fontFamily: "cairo", fontWeight: FontWeight.bold),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        unselectedLabelStyle: TextStyle(
+            fontSize: 10, fontFamily: "cairo", fontWeight: FontWeight.bold),
+        onTap: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        currentIndex: _selectedIndex,
+        items: const [
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: "My NetWork",
+            icon: Icon(Icons.person),
+          ),
+          BottomNavigationBarItem(
+            label: "Post",
+            icon: Icon(Icons.add_box),
+          ),
+          BottomNavigationBarItem(
+            label: "Notifications",
+            icon: Icon(Icons.notifications),
+          ),
+          BottomNavigationBarItem(
+            label: "Jobs",
+            icon: Icon(Icons.work),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+///////////////////////////////////// Upper Navigation Bar
+
+class CreatAppBar extends StatelessWidget with PreferredSizeWidget {
+  final Size preferredSize;
+
+  CreatAppBar({
+    Key key,
+  })  : preferredSize = Size.fromHeight(80.0),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Row(
+          children: [
+            Expanded(
+                child: Icon(
+              Icons.message,
+              color: Colors.grey,
+              size: 25,
+            )),
+            Expanded(
+              flex: 4,
+              child: Container(
+                  height: 45.54,
+                  child: TextField(
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+
+                      //onChanged: onChange,
+                      //validator: validate,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blueGrey.shade50,
+                        prefixText: ("search"),
+                        //hintText: ("search"),
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                        prefixIcon: Icon(Icons.search),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffE9E9E9), width: 1.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.blueAccent, width: 1.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                      ))),
+            ),
+            Expanded(
+                child: CircleAvatar(
+              radius: 25,
+              backgroundColor: Colors.grey,
+            ))
+          ],
+        ));
   }
 }

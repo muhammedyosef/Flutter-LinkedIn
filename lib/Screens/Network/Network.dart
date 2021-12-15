@@ -89,67 +89,6 @@ class _NetworkState extends State<Network> {
               ),
             ),
           ),
-          // Card(
-          //   child: Container(
-          //     height: 100,
-          //     color: Colors.white,
-          //     child: Row(
-          //       children: [
-          //         Center(
-          //           child: Padding(
-          //             padding: EdgeInsets.all(10),
-          //             child: Expanded(
-          //               child: Image.network("${Users[0].img}"),
-          //               flex: 2,
-          //             ),
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child: Container(
-          //             alignment: Alignment.topLeft,
-          //             child: Column(
-          //               children: [
-          //                 Expanded(
-          //                   flex: 5,
-          //                   child: ListTile(
-          //                     title: Text(
-          //                         "${Users[0].firstName} ${Users[0].lastName} "),
-          //                     subtitle: Text("${Users[0].jobTitle}"),
-          //                   ),
-          //                 ),
-          //                 Expanded(
-          //                   flex: 5,
-          //                   child: Row(
-          //                     mainAxisAlignment: MainAxisAlignment.end,
-          //                     children: [
-          //                       // TextButton(
-          //                       //   child: Text("PLAY"),
-          //                       //   onPressed: () {},
-          //                       // ),
-          //                       SizedBox(
-          //                         width: 8,
-          //                       ),
-          //                       TextButton(
-          //                         child: Text("Connect"),
-          //                         onPressed: () {},
-          //                       ),
-          //                       SizedBox(
-          //                         width: 8,
-          //                       )
-          //                     ],
-          //                   ),
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //           flex: 8,
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          //   elevation: 8,
-          //   margin: EdgeInsets.all(10),
-          // ),
           for (var i in Users)
             Card(
               child: Container(
