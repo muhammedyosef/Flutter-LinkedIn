@@ -4,38 +4,54 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linked_in/Screens/Model/Userss.dart';
 import 'package:linked_in/Screens/Model/noti.dart';
 
-class Invite extends StatefulWidget {
+class Connections extends StatefulWidget {
   @override
-  _InviteState createState() => _InviteState();
+  _ConnectionsState createState() => _ConnectionsState();
 }
 
-class _InviteState extends State<Invite> {
-  List requst = [];
-  var obj;
+class _ConnectionsState extends State<Connections> {
   bool data = true;
-  getRequests() async {
+  List user = [];
+  var obj;
+  var obj1;
+  getFriend() async {
     await FirebaseAuth.instance.authStateChanges().listen((event) {
       FirebaseFirestore.instance
-          .collection("notifications")
+          .collection("FriendList")
           .get()
           // ignore: avoid_function_literals_in_foreach_calls
-          .then((value) => value.docs.forEach((element) {
-                obj = element.data();
-                obj["ID"] = element.id;
-                Request model = Request.fromJson(obj);
+          .then((value) => value.docs.forEach((element) async {
+                Request model = Request.fromJson(element.data());
                 if (model.sendTo == event?.uid) {
-                  requst.add(model);
+                  await FirebaseFirestore.instance
+                      .collection("Users")
+                      .doc(model.sendFrom)
+                      .get()
+                      .then((value) => obj = value.data());
+                  Welcome model1 = Welcome.fromJson(obj);
+                  user.add(model1);
+                  data = false;
+                  setState(() {});
+                } else if (model.sendFrom == event?.uid) {
+                  await FirebaseFirestore.instance
+                      .collection("Users")
+                      .doc(model.sendTo)
+                      .get()
+                      .then((value) => obj1 = value.data());
+                  Welcome model1 = Welcome.fromJson(obj1);
+                  user.add(model1);
                   data = false;
                   setState(() {});
                 }
               }));
     });
+    print(user);
   }
 
   @override
   void initState() {
     super.initState();
-    getRequests();
+    getFriend();
   }
 
   @override
@@ -44,16 +60,16 @@ class _InviteState extends State<Invite> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Invitations",
+          "Connections",
         ),
       ),
       body: data
           ? Center(
-              child: Text("NO Requests"),
+              child: Text("No Connections"),
             )
           : ListView(
               children: [
-                for (var i in requst)
+                for (var i in user)
                   Card(
                     child: Container(
                       height: 100,
@@ -78,8 +94,8 @@ class _InviteState extends State<Invite> {
                                     flex: 5,
                                     child: ListTile(
                                       title:
-                                          Text("${i.firstname}  ${i.lastname}"),
-                                      // subtitle: Text("${requst[0].firstname}"),
+                                          Text("${i.firstName} ${i.lastName}"),
+                                      subtitle: Text("${i.jobTitle}"),
                                     ),
                                   ),
                                   Expanded(
@@ -87,45 +103,16 @@ class _InviteState extends State<Invite> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        TextButton(
-                                          child: Text("Accept"),
-                                          onPressed: () {
-                                            FirebaseFirestore.instance
-                                                .collection('FriendList')
-                                                .add({
-                                              "sendFrom": i.sendFrom,
-                                              "sendTo": i.sendTo,
-                                              "dateTime": new DateTime.now(),
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection('notifications')
-                                                .doc(i.ID)
-                                                .delete();
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        super.widget));
-                                          },
-                                        ),
+                                        // TextButton(
+                                        //   child: Text("Accept"),
+                                        //   onPressed: () {},
+                                        // ),
                                         SizedBox(
                                           width: 8,
                                         ),
                                         TextButton(
-                                          child: Text("Reject"),
-                                          onPressed: () {
-                                            FirebaseFirestore.instance
-                                                .collection('notifications')
-                                                .doc(i.ID)
-                                                .delete();
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        super.widget));
-                                          },
+                                          child: Text("Message"),
+                                          onPressed: () {},
                                         ),
                                         SizedBox(
                                           width: 8,

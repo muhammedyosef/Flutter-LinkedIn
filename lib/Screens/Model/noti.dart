@@ -7,9 +7,10 @@ class Request {
     required this.sendTo,
     required this.status,
     required this.img,
+    required this.ID,
   });
   String img;
-
+  String ID;
   String firstname;
   String lastname;
   String sendFrom;
@@ -23,5 +24,6 @@ class Request {
         sendTo: json["sendTo"] == null ? "" : json["sendTo"],
         status: json["status"] == null ? "" : json["status"],
         img: json["img"] == null ? "" : json["img"],
+        ID: json["ID"] == null ? "" : json["ID"],
       );
 }

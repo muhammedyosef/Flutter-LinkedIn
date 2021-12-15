@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linked_in/Screens/Invitations/Invite.dart';
+import 'package:linked_in/Screens/Manage/Manage.dart';
 import 'package:linked_in/Screens/Model/Userss.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,6 +12,7 @@ class Network extends StatefulWidget {
 
 class _NetworkState extends State<Network> {
   List Users = [];
+  List Users1 = [];
   var User;
   var realUser;
   var id;
@@ -33,8 +35,7 @@ class _NetworkState extends State<Network> {
           .get()
           .then((value) => User = value.data());
     });
-    Welcome model = Welcome.fromJson(User);
-    realUser = model;
+
     setState(() {});
   }
 
@@ -53,7 +54,10 @@ class _NetworkState extends State<Network> {
       body: ListView(
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Manage()));
+            },
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -193,6 +197,8 @@ class _NetworkState extends State<Network> {
                                   TextButton(
                                     child: Text("Connect"),
                                     onPressed: () {
+                                      Welcome model = Welcome.fromJson(User);
+                                      realUser = model;
                                       var notification = {
                                         "sendTo": i.ID,
                                         "sendFrom": realUser.ID,
